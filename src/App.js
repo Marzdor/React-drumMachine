@@ -45,7 +45,8 @@ class App extends Component {
           type: ".mp3"
         }
       },
-      fired: false
+      fired: false,
+      displayText: "- -"
     };
     this.handleClick = this.handleClick.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
@@ -53,6 +54,9 @@ class App extends Component {
   }
   handleClick(e) {
     e.target.children[0].play();
+    this.setState({
+      displayText: e.target.id
+    });
   }
   handleKeyDown(e) {
     const key = "#" + e.key.toUpperCase();
@@ -62,7 +66,8 @@ class App extends Component {
     if (checkLetter && !this.state.fired) {
       element.play();
       this.setState({
-        fired: true
+        fired: true,
+        displayText: element.parentElement.id
       });
     }
   }
@@ -85,7 +90,7 @@ class App extends Component {
           handleClick={this.handleClick}
           buttonData={this.state.buttonData}
         />
-        <Display />
+        <Display displayText={this.state.displayText} />
       </div>
     );
   }
