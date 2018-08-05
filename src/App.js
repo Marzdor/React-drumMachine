@@ -46,11 +46,19 @@ class App extends Component {
         }
       }
     };
+    this.handleClick = this.handleClick.bind(this);
+  }
+  handleClick(e) {
+    e.target.children[0].play();
+    console.log(e.target.children[0]);
   }
   render() {
     return (
       <div id="drum-machine">
-        <Buttons buttonData={this.state.buttonData} />
+        <Buttons
+          handleClick={this.handleClick}
+          buttonData={this.state.buttonData}
+        />
         <Display />
       </div>
     );
