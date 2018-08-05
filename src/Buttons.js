@@ -32,7 +32,7 @@ const Buttons = props => {
       </button>
     );
   }
-  return <div>{buttons}</div>;
+  return <div id="buttons">{buttons}</div>;
 };
 
 export default Buttons;
