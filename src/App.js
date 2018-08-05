@@ -49,7 +49,7 @@ class App extends Component {
       displayText: "- -"
     };
     this.handleClick = this.handleClick.bind(this);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleKeyUp = this.handleKeyUp.bind(this);
   }
   handleClick(e) {
@@ -58,12 +58,12 @@ class App extends Component {
       displayText: e.target.id
     });
   }
-  handleKeyDown(e) {
-    const key = "#" + e.key.toUpperCase();
-    const element = document.querySelector(key);
+  handleKeyPress(e) {
     const checkLetter = /[QWEASDZXC]/.test(e.key.toUpperCase());
 
     if (checkLetter && !this.state.fired) {
+      const key = "#" + e.key.toUpperCase();
+      const element = document.querySelector(key);
       element.play();
       this.setState({
         fired: true,
@@ -82,7 +82,7 @@ class App extends Component {
   render() {
     return (
       <div
-        onKeyDown={this.handleKeyDown}
+        onKeyPress={this.handleKeyPress}
         onKeyUp={this.handleKeyUp}
         id="drum-machine"
       >
