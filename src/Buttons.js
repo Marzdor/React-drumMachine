@@ -3,13 +3,13 @@ import React from "react";
 function importAllSounds(sound) {
   let sounds = {};
   sound.keys().map((item, index) => {
-    sounds[item.replace("./", "")] = sound(item);
+    return (sounds[item.replace("./", "")] = sound(item));
   });
   return sounds;
 }
 
 const sounds = importAllSounds(
-  require.context("./assests/sounds/", false, /\.wav$/)
+  require.context("./assests/sounds/", false, /\.mp3$/)
 );
 
 const Buttons = props => {
