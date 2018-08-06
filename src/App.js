@@ -103,7 +103,12 @@ class App extends Component {
       console.log("hit");
       for (let i = 0; i < this.state.playback.length; i++) {
         setTimeout(() => {
-          document.querySelector("#" + this.state.playback[i][0]).play();
+          const audio = document.querySelector("#" + this.state.playback[i][0]);
+          this.setState({
+            displayText: audio.parentElement.id
+          });
+
+          audio.play();
           console.log(this.state.playback[i][1]);
         }, this.state.playback[i][1]);
       }
