@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./App.css";
 import Buttons from "./Buttons";
 import Display from "./Display";
+import Settings from "./Settings";
 
 class App extends Component {
   constructor(props) {
@@ -46,16 +47,25 @@ class App extends Component {
         }
       },
       fired: false,
-      displayText: "- -"
+      displayText: "- -",
+      recording: false,
+      playback: []
     };
-    this.handleClick = this.handleClick.bind(this);
+    this.handlePadClick = this.handlePadClick.bind(this);
+    this.handleRecClick = this.handleRecClick.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleKeyUp = this.handleKeyUp.bind(this);
   }
-  handleClick(e) {
+  handlePadClick(e) {
     e.target.children[0].play();
     this.setState({
       displayText: e.target.id
+    });
+  }
+  handleRecClick(e) {
+    const rec = this.state.recording ? false : true;
+    this.setState({
+      recording: rec
     });
   }
   handleKeyPress(e) {
@@ -87,10 +97,16 @@ class App extends Component {
         id="drum-machine"
       >
         <Buttons
-          handleClick={this.handleClick}
+          handlePadClick={this.handlePadClick}
           buttonData={this.state.buttonData}
         />
-        <Display displayText={this.state.displayText} />
+        <section id="settings">
+          <Display displayText={this.state.displayText} />
+          <Settings
+            handleRecClick={this.handleRecClick}
+            recording={this.state.recording}
+          />
+        </section>
       </div>
     );
   }

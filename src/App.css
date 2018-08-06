@@ -25,6 +25,15 @@
     background-color: #000;
     border-radius: 10px;
   }
+  #settings {
+    width: 100%;
+  }
+  .recOn {
+    background-color: #ff0000;
+  }
+  .recOff {
+    background-color: #fff;
+  }
   .drum-pad {
     height: 90px;
     width: 90px;
@@ -48,5 +57,11 @@
   #display {
     width: 40%;
     margin: 0 auto;
+  }
+  #recLight {
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
   }
 }
