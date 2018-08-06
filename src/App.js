@@ -51,7 +51,8 @@ class App extends Component {
       recording: false,
       lastClick: 0,
       delay: 0,
-      playback: []
+      playback: [],
+      isPlaying: false
     };
     //btns
     this.handlePadClick = this.handlePadClick.bind(this);
@@ -84,24 +85,28 @@ class App extends Component {
     const rec = this.state.recording ? false : true;
 
     /// reset recorded data before recording new data
-    if (rec) {
+    if (!this.state.isPlaying) {
+      if (rec) {
+        this.setState({
+          lastClick: 0,
+          delay: 0,
+          playback: []
+        });
+      }
+
       this.setState({
-        lastClick: 0,
-        delay: 0,
-        playback: []
+        recording: rec
       });
     }
-
-    this.setState({
-      recording: rec
-    });
   }
 
   handlePlaybackClick(e) {
     // if you are not currently recording then allow playback run
     if (!this.state.recording) {
-      console.log("hit");
-      for (let i = 0; i < this.state.playback.length; i++) {
+      this.setState({ isPlaying: true });
+      const playbackLen = this.state.playback.length;
+
+      for (let i = 0; i < playbackLen; i++) {
         setTimeout(() => {
           const audio = document.querySelector("#" + this.state.playback[i][0]);
           this.setState({
@@ -109,7 +114,10 @@ class App extends Component {
           });
 
           audio.play();
-          console.log(this.state.playback[i][1]);
+
+          if (playbackLen - 1 === i) {
+            this.setState({ isPlaying: false });
+          }
         }, this.state.playback[i][1]);
       }
     }
