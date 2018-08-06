@@ -8,7 +8,12 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-gap: 5px;
+    font-family: "Do Hyeon", sans-serif;
+    font-size: 2rem;
+    align-items: center;
+    justify-items: center;
   }
+
   #display {
     width: 80%;
     height: 50px;
@@ -24,5 +29,24 @@
     height: 90px;
     width: 90px;
     border-radius: 10px;
+  }
+}
+@media (min-width: 600px) {
+  #drum-machine {
+    width: 60%;
+    margin: 50px auto;
+  }
+}
+@media (min-width: 1024px) {
+  #drum-machine {
+    margin: 150px auto;
+    padding: 30px;
+    width: 50%;
+    display: flex;
+    border: solid 8px #000;
+  }
+  #display {
+    width: 40%;
+    margin: 0 auto;
   }
 }
