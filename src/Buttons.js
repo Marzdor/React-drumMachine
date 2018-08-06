@@ -25,7 +25,7 @@ const Buttons = props => {
         id={sound}
         className="drum-pad"
         key={sound}
-        onClick={props.handleClick}
+        onClick={props.handlePadClick}
       >
         <audio id={key} className="clip" src={sounds[sound + type]} />
         {key}

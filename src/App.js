@@ -49,28 +49,70 @@ class App extends Component {
       fired: false,
       displayText: "- -",
       recording: false,
+      lastClick: 0,
+      delay: 0,
       playback: []
     };
+    //btns
     this.handlePadClick = this.handlePadClick.bind(this);
     this.handleRecClick = this.handleRecClick.bind(this);
+    this.handlePlaybackClick = this.handlePlaybackClick.bind(this);
+    //keys
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleKeyUp = this.handleKeyUp.bind(this);
   }
   handlePadClick(e) {
     e.target.children[0].play();
+
     this.setState({
       displayText: e.target.id
     });
+
+    // if recoding track buttons in the state
+    if (this.state.recording) {
+      const playbackClone = this.state.playback.slice();
+      const time = getTime(this.state.lastClick);
+
+      playbackClone.push([e.target.children[0].id, time[1]]);
+      this.setState({
+        lastClick: time[0],
+        playback: playbackClone
+      });
+    }
   }
   handleRecClick(e) {
     const rec = this.state.recording ? false : true;
+
+    /// reset recorded data before recording new data
+    if (rec) {
+      this.setState({
+        lastClick: 0,
+        delay: 0,
+        playback: []
+      });
+    }
+
     this.setState({
       recording: rec
     });
   }
+
+  handlePlaybackClick(e) {
+    // if you are not currently recording then allow playback run
+    if (!this.state.recording) {
+      console.log("hit");
+      for (let i = 0; i < this.state.playback.length; i++) {
+        setTimeout(() => {
+          document.querySelector("#" + this.state.playback[i][0]).play();
+          console.log(this.state.playback[i][1]);
+        }, this.state.playback[i][1]);
+      }
+    }
+  }
+
   handleKeyPress(e) {
     const checkLetter = /[QWEASDZXC]/.test(e.key.toUpperCase());
-
+    // check for valid key
     if (checkLetter && !this.state.fired) {
       const key = "#" + e.key.toUpperCase();
       const element = document.querySelector(key);
@@ -79,8 +121,21 @@ class App extends Component {
         fired: true,
         displayText: element.parentElement.id
       });
+
+      //if recording track buttons in state
+      if (this.state.recording) {
+        const playbackClone = this.state.playback.slice();
+        const time = getTime(this.state.lastClick);
+
+        playbackClone.push([key.slice(1), time[1]]);
+        this.setState({
+          lastClick: time[0],
+          playback: playbackClone
+        });
+      }
     }
   }
+
   handleKeyUp(e) {
     const checkLetter = /[QWEASDZXC]/.test(e.key.toUpperCase());
     if (checkLetter && this.state.fired) {
@@ -104,11 +159,25 @@ class App extends Component {
           <Display displayText={this.state.displayText} />
           <Settings
             handleRecClick={this.handleRecClick}
+            handlePlaybackClick={this.handlePlaybackClick}
             recording={this.state.recording}
           />
         </section>
       </div>
     );
+  }
+}
+
+function getTime(lastClick) {
+  //Get time for delay between clicks
+  const date = new Date();
+  let time = date.getTime();
+
+  if (lastClick === 0) {
+    return [time, 0];
+  } else {
+    time = time - lastClick;
+    return [lastClick, time];
   }
 }
 
